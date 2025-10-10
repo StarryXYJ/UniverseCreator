@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0-android</TargetFramework>
+        <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <Nullable>enable</Nullable>
+        <ApplicationId>com.CompanyName.WorldCreator</ApplicationId>
+        <ApplicationVersion>1</ApplicationVersion>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
+        <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
+        <AndroidSdkDirectory>F:\Android\android-sdk</AndroidSdkDirectory>
+        <JavaSdkDirectory>C:\Program Files\Microsoft\jdk-11.0.28.6-hotspot\bin</JavaSdkDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AndroidResource Include="Icon.png">
+            <Link>Resources\drawable\Icon.png</Link>
+        </AndroidResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia.Android"/>
+        <PackageReference Include="Irihi.Ursa"/>
+        <PackageReference Include="Irihi.Ursa.Themes.Semi"/>
+        <PackageReference Include="Markdown.Avalonia"/>
+        <PackageReference Include="Semi.Avalonia"/>
+        <PackageReference Include="Semi.Avalonia.AvaloniaEdit"/>
+        <PackageReference Include="Serilog.Extensions.Logging"/>
+        <PackageReference Include="Serilog.Sinks.File"/>
+        <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\WorldCreator\WorldCreator.csproj"/>
+    </ItemGroup>
+</Project>

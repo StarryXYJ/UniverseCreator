@@ -1,0 +1,54 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="WorldCreator.App"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
+             xmlns:semi="https://irihi.tech/semi"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <!-- <Application.DataTemplates> -->
+    <!--     <local:ViewLocator/> -->
+    <!-- </Application.DataTemplates> -->
+
+    <Application.Styles>
+        <semi:SemiTheme Locale="zh-CN" />
+        <semi:AvaloniaEditSemiTheme />
+        <semi:SemiPopupAnimations />
+        <u-semi:SemiTheme Locale="zh-CN" />
+
+        <StyleInclude Source="avares://WorldCreator/Assets/Icons.axaml" />
+        <StyleInclude Source="Styles/AppDefaultStyles.axaml" />
+        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+
+    </Application.Styles>
+
+    <Application.Resources>
+
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="Assets/Icon.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!-- <ResourceInclude Source="Themes/VioletDark.axaml" x:Key="VioletDark" /> -->
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <ResourceDictionary.MergedDictionaries>
+                        <!-- <ResourceInclude Source="Themes/SharedTheme.axaml"></ResourceInclude> -->
+                        <ResourceInclude Source="Themes/VioletDark.axaml" />
+                        <ResourceInclude Source="avares://Semi.Avalonia/Themes/Dark/_index.axaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+
+        <x:Double x:Key="ControlContentThemeFontSize">12</x:Double>
+        <FontFamily x:Key="ContentControlThemeFontFamily">Segoe UI, Arial, Helvetica, sans-serif</FontFamily>
+        <SolidColorBrush x:Key="DarkBackground" Color="#111119" />
+        <SolidColorBrush x:Key="ButtonPrimaryBackground">#3f3f45</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonHoverPrimaryBackground">#625F6A</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonHoverPrimaryForeground">#CFC7D2</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonPrimaryForeground">#E7DADE</SolidColorBrush>
+        <SolidColorBrush x:Key="ButtonPrimaryBorder">#BEB3D2</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryBorder">#9184EE</SolidColorBrush>
+    </Application.Resources>
+</Application>

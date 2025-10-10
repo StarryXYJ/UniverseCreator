@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Views.TestView"
+             xmlns:u="https://irihi.tech/ursa">
+    <StackPanel>
+        <ToggleSwitch Name="Collapse" />
+        <u:NavMenu
+            Background="Aqua"
+            HorizontalAlignment="Left"
+            Width="400"
+            CollapseWidth="100"
+            Classes="enable_animation"
+            IsHorizontalCollapsed="{Binding #Collapse.IsChecked}">
+            <u:NavMenuItem Header="Menu 1">
+                <u:NavMenuItem.Icon>
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="Red" />
+                </u:NavMenuItem.Icon>
+            </u:NavMenuItem>
+            <u:NavMenuItem Header="Menu 2">
+                <u:NavMenuItem.Icon>
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="Red" />
+                </u:NavMenuItem.Icon>
+            </u:NavMenuItem>
+            <u:NavMenuItem Header="Menu 3">
+                <u:NavMenuItem.Icon>
+                    <Rectangle
+                        Width="10"
+                        Height="10"
+                        Fill="Red" />
+                </u:NavMenuItem.Icon>
+            </u:NavMenuItem>
+        </u:NavMenu>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,75 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:WorldCreator.ViewModels"
+             xmlns:m="clr-namespace:WorldCreator.Model"
+             x:Class="WorldCreator.Views.StartView"
+             xmlns:lang="clr-namespace:WorldCreator.Lang"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:conv="clr-namespace:WorldCreator.Core.Converters"
+             x:DataType="vm:StartViewModel"
+             x:Name="Root">
+    <UserControl.Resources>
+        <!-- 实例化你的转换器 -->
+        <conv:StartViewDataContextConverter x:Key="DataContextConverter" />
+    </UserControl.Resources>
+
+    <Design.DataContext>
+        <vm:StartViewModel />
+    </Design.DataContext>
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="0">
+
+            <ItemsControl ItemsSource="{Binding RepositoryService.Repositories}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="m:WorldRepository">
+                        <Button Classes="Proj" HorizontalAlignment="Stretch" Margin="40,10,50,10" Height="140"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding #Root.DataContext,Converter={StaticResource DataContextConverter}}"
+                                CommandParameter="{Binding}">
+                            <Grid ColumnDefinitions="3*,7*">
+                                <TextBlock Width="100" Margin="20,0,20,0" VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"
+                                           FontSize="20"
+                                           Text="{Binding Name}" />
+                                <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                           FontSize="20"
+                                           Text="{Binding Author}" />
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+
+        </ScrollViewer>
+
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
+
+            <u:IconButton Margin="00,0,40,0" FontSize="22" Height="50" Width="120"
+                          Command="{Binding Import}"
+                          Content="{x:Static lang:Resources.Import}"
+                          Theme="{StaticResource SolidIconButton}" />
+            <u:IconButton FontSize="22" Height="50" Width="120"
+                          Command="{Binding New}"
+                          Content="{x:Static lang:Resources.New}"
+                          Theme="{StaticResource SolidIconButton}" />
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>

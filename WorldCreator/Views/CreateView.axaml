@@ -1,0 +1,61 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:WorldCreator.ViewModels"
+             xmlns:lang="clr-namespace:WorldCreator.Lang"
+             xmlns:u="https://irihi.tech/ursa"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Views.CreateView"
+             x:DataType="vm:CreateViewModel">
+    <Design.DataContext>
+        <vm:CreateViewModel />
+    </Design.DataContext>
+    <ScrollViewer>
+        <Panel Margin="30">
+            <Grid>
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="80" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="20" VerticalAlignment="Center"
+                           HorizontalAlignment="Right">
+                    Name:
+                </TextBlock>
+                <TextBox Text="{Binding Repository.Name}" Margin="20,0,0,0" Height="35" Width="200" Grid.Row="0"
+                         Grid.Column="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBox Text="{Binding Repository.Author}" Margin="20,0,0,0" Height="35" Width="200" Grid.Row="1"
+                         Grid.Column="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <TextBlock Grid.Row="1" Grid.Column="0" FontSize="20" VerticalAlignment="Center"
+                           HorizontalAlignment="Right">
+                    Author:
+                </TextBlock>
+                <!-- <Button Margin="20,0,0,0" Height="35" Width="200" Grid.Row="2" Grid.Column="1" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Left"></Button> -->
+                <!-- <TextBlock Grid.Row="2" Grid.Column="0" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right">Cover:</TextBlock> -->
+            </Grid>
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <u:IconButton Theme="{StaticResource SolidIconButton}"
+                              Margin="00,0,40,0" FontSize="20" Height="50" Width="120" Command="{Binding Cancel}">
+                    <TextBlock Text="{x:Static lang:Resources.Cancel}" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </u:IconButton>
+                <u:IconButton Theme="{StaticResource SolidIconButton}"
+                              FontSize="20" Height="50" Width="120" Command="{Binding Create}">
+                    <TextBlock Text="{x:Static lang:Resources.Create}" HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </u:IconButton>
+
+            </StackPanel>
+        </Panel>
+    </ScrollViewer>
+
+</UserControl>
