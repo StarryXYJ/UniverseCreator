@@ -1,19 +1,12 @@
-﻿using Avalonia;
+﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WorldCreator.Model;
 
 namespace WorldCreator.ViewModels;
 
 public partial class EditViewModel : ViewModelBase
 {
-    [ObservableProperty] [NotifyPropertyChangedFor(nameof(IsWidthGreaterThanHeight))]
-    private Rect _controlSize;
-
-
-    [ObservableProperty] private string? _markDownText;
-    [ObservableProperty] private int _selectedIndex;
-    [ObservableProperty] private MenuItemModel? _selectedMenuItem;
-
-    // 计算属性：宽高比是否大于1
-    public bool IsWidthGreaterThanHeight => ControlSize.Width > ControlSize.Height;
+    [ObservableProperty]
+    private Entry _currentEntry = new Entry("New Entry", "Description", 1, null);
 }

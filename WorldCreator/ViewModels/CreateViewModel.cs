@@ -20,11 +20,13 @@ public partial class CreateViewModel : ViewModelBase
 
     public CreateViewModel()
     {
+        ShowSideBar = false;
     }
 
     [ActivatorUtilitiesConstructor]
     public CreateViewModel(NavigationService navigationService, IRepositoryService repositoryService)
     {
+        ShowSideBar = false;
         _navigationService = navigationService;
         _repositoryService = repositoryService;
     }

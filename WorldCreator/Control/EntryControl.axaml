@@ -1,0 +1,101 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Control.EntryControl"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:conv="clr-namespace:WorldCreator.Core.Converters"
+             xmlns:control="clr-namespace:WorldCreator.Control"
+             Name="Root">
+    <UserControl.Resources>
+        <conv:SwapPanelsToGridIndexConverter x:Key="SwapPanelsToGridIndexConverter" />
+    </UserControl.Resources>
+    <Grid
+        RowDefinitions="Auto,*">
+        <StackPanel Margin="0,0,10,0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+
+            <u:ButtonGroup Background="Transparent" x:DataType="control:ButtonItem" CommandBinding="{Binding Command,Mode=OneTime}">
+                <u:ButtonGroup.Items>
+                    <control:ButtonItem Icon="{StaticResource EditIcon}"
+                                        Command="{Binding #Root.SwitchModeEditCommand,Mode=OneTime}">
+                    </control:ButtonItem>
+                    <control:ButtonItem Icon="{StaticResource PreviewIcon}"
+                                        Command="{Binding #Root.SwitchModePreviewCommand,Mode=OneTime}">
+                    </control:ButtonItem>
+                    <control:ButtonItem Icon="{StaticResource EditPreviewIcon}"
+                                        Command="{Binding #Root.SwitchModeSplitCommand,Mode=OneTime}">
+                    </control:ButtonItem>
+                </u:ButtonGroup.Items>
+                <u:ButtonGroup.ItemTemplate>
+                    <DataTemplate DataType="control:ButtonItem">
+                        <u:TwoTonePathIcon 
+                            Foreground="{DynamicResource SemiColorPrimary}"
+                            Width="16" Height="16"
+                                           Data="{Binding Icon}">
+
+                        </u:TwoTonePathIcon>
+                    </DataTemplate>
+                </u:ButtonGroup.ItemTemplate>
+            </u:ButtonGroup>
+            <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource RotateIcon}"
+                          Click="ToggleSplitLayoutDirection" Margin="10,0,0,0" />
+
+            <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource SwapIcon}"
+                          Click="ToggleSwapPanels" Margin="10,0,0,0" />
+
+
+        </StackPanel>
+        <Grid Grid.Row="1"
+              IsVisible="{Binding #Root.IsVerticalVisible}"
+              RowDefinitions="*,Auto,*">
+            <GridSplitter BorderThickness="2" CornerRadius="2" Background="{DynamicResource SemiColorPrimary}"
+                          ResizeDirection="Rows" Grid.Row="1" />
+            <Border
+                Grid.Row="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=0}"
+                Padding="0"
+                Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <control:MdViewer Entry="{Binding #Root.Entry}" />
+            </Border>
+            <Border
+                Grid.Row="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=2}"
+                Padding="0"
+                Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <control:EditControl Entry="{Binding #Root.Entry}"></control:EditControl>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,Auto,*"
+              IsVisible="{Binding #Root.IsHorizontalVisible}">
+            <GridSplitter BorderThickness="2" CornerRadius="2" Background="{DynamicResource SemiColorPrimary}"
+                          ResizeDirection="Columns"
+                          Grid.Column="1" />
+            <Border
+                Grid.Column="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=0}"
+                Padding="0"
+                Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <control:MdViewer Entry="{Binding #Root.Entry,Mode=TwoWay}" />
+            </Border>
+            <Border
+                Grid.Column="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=2}"
+                Padding="0"
+                Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <control:EditControl Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+            </Border>
+        </Grid>
+        <Border
+            IsVisible="{Binding #Root.IsPreviewVisible}"
+            Grid.Row="1"
+            Padding="0"
+            Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <control:MdViewer Entry="{Binding #Root.Entry,Mode=TwoWay}" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Padding="0"
+            Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            IsVisible="{Binding #Root.IsEditorVisible}">
+            <control:EditControl Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+        </Border>
+    </Grid>
+</UserControl>

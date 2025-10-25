@@ -12,17 +12,13 @@
              x:DataType="vm:StartViewModel"
              x:Name="Root">
     <UserControl.Resources>
-        <!-- 实例化你的转换器 -->
         <conv:StartViewDataContextConverter x:Key="DataContextConverter" />
     </UserControl.Resources>
 
     <Design.DataContext>
         <vm:StartViewModel />
     </Design.DataContext>
-    <Grid Margin="30">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid Margin="30" ColumnDefinitions="*">
         <Grid.RowDefinitions>
             <RowDefinition Height="0" />
             <RowDefinition Height="*" />
@@ -63,11 +59,11 @@
             <u:IconButton Margin="00,0,40,0" FontSize="22" Height="50" Width="120"
                           Command="{Binding Import}"
                           Content="{x:Static lang:Resources.Import}"
-                          Theme="{StaticResource SolidIconButton}" />
+                          Theme="{DynamicResource SolidIconButton}" />
             <u:IconButton FontSize="22" Height="50" Width="120"
                           Command="{Binding New}"
                           Content="{x:Static lang:Resources.New}"
-                          Theme="{StaticResource SolidIconButton}" />
+                          Theme="{DynamicResource SolidIconButton}" />
         </StackPanel>
 
 

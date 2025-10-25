@@ -85,6 +85,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Control\"/>
+        <Folder Include="Model\Interfaces\"/>
     </ItemGroup>
 </Project>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="WorldCreator/App.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Assets/Default.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Assets/Icon.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Assets/Icons.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Assets/MarkDownScrollViewerStyle.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Control/CustomTimePicher.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/CustomTimePicker.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Control/EditControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/EditorControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/EntryControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/MdViewer.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Control/MenuItem.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/NavMenu.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Control/PreviewControl.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Icons.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Styles/AppDefaultStyles.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Themes/SharedTheme.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Themes/VioletDark.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Views/CreateView.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Views/EditView.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Views/EditViewModel.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Views/MainView.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Views/MainWindow.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Views/StartView.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+        <entry key="WorldCreator/Views/TestView.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

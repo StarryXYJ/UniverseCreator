@@ -1,0 +1,50 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:conv="clr-namespace:WorldCreator.Core.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Control.CustomTimePicker"
+             Name="Root">
+    <UserControl.Resources>
+        <conv:TimePickerRangeConverter x:Key="TimePickerRangeConverter"></conv:TimePickerRangeConverter>
+    </UserControl.Resources>
+    <u:FormGroup Header="{Binding #Root.Header}">
+        <u:NumericLongUpDown u:FormItem.Label="年"  Value="{Binding ElementName=Root,Path=BindingDateTime.Year,Mode=TwoWay}"
+                             LostFocus="AppleModifyEvent">
+
+        </u:NumericLongUpDown>
+        <u:NumericIntUpDown Minimum="1" Maximum="{Binding BindingDateTime.MonthInYear,ElementName=Root}" u:FormItem.Label="月"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Month,Mode=TwoWay}"
+                            >
+
+        </u:NumericIntUpDown>
+        <u:NumericIntUpDown Minimum="1" Maximum="{Binding BindingDateTime.DaysInMonth,ElementName=Root}" u:FormItem.Label="日"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Day,Mode=TwoWay}"
+                            >
+
+        </u:NumericIntUpDown>
+        <u:NumericIntUpDown Minimum="0" Maximum="{Binding BindingDateTime.HourInDay,ElementName=Root}" u:FormItem.Label="时"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Hour,Mode=TwoWay}"
+                            >
+
+        </u:NumericIntUpDown>
+        <u:NumericIntUpDown Minimum="0" Maximum="{Binding BindingDateTime.MinuteInHour,ElementName=Root}" u:FormItem.Label="分"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Minute,Mode=TwoWay}"
+                            >
+
+        </u:NumericIntUpDown>
+        <u:NumericIntUpDown Minimum="0" Maximum="{Binding BindingDateTime.SecondInMinute,ElementName=Root}" u:FormItem.Label="秒"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Second,Mode=TwoWay}"
+                            >
+
+        </u:NumericIntUpDown>
+        <u:NumericIntUpDown Minimum="0" Maximum="{Binding BindingDateTime.MillisecondInSecond,ElementName=Root}"
+                            Value="{Binding ElementName=Root,Path=BindingDateTime.Millisecond,Mode=TwoWay}"
+                            u:FormItem.Label="毫秒" >
+
+        </u:NumericIntUpDown>
+        
+    </u:FormGroup>
+</UserControl>

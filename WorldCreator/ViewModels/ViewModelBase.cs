@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Serilog;
-
 
 namespace WorldCreator.ViewModels;
 
@@ -10,4 +8,6 @@ public abstract class ViewModelBase : ObservableRecipient
     {
         IsActive = true;
     }
+
+    public bool ShowSideBar { get; set; } = true;
 }

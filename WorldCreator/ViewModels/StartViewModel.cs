@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,13 +12,16 @@ public partial class StartViewModel : ViewModelBase
 {
     private readonly NavigationService _navigationService;
 
+    [Obsolete("只用于xaml绘制")]
     public StartViewModel()
     {
+        ShowSideBar = false;
     }
 
     [ActivatorUtilitiesConstructor]
     public StartViewModel(NavigationService navigationService, IRepositoryService repositoryService)
     {
+        ShowSideBar = false;
         _navigationService = navigationService;
         RepositoryService = repositoryService;
     }

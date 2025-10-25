@@ -1,0 +1,51 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:control="clr-namespace:WorldCreator.Control"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Control.EditControl"
+             Name="Root">
+    <Panel>
+        <Panel Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+               IsVisible="{Binding !#Root.IsMarkdown}">
+            <u:Form LabelPosition="Left" LabelWidth="*">
+                <TextBox u:FormItem.Label="名称" Text="{Binding Entry.Name, ElementName=Root, Mode=TwoWay}" />
+
+                <!-- 优先级（byte） -->
+                <u:Rating
+                    u:FormItem.Label="重要性"
+                    AllowClear="True"
+                    AllowHalf="False"
+                    Value="{Binding Entry.Priority,Mode=TwoWay,ElementName=Root}"
+                    Count="5"
+                    DefaultValue="3" />
+
+                <!-- 描述 -->
+                <Button HorizontalAlignment="Left" Click="ChangeView" u:FormItem.Label="描述"
+                        Foreground="{DynamicResource SemiColorPrimary}">
+                    切换编辑界面
+                </Button>
+                <control:CustomTimePicker Header="开始时间" DateTime="{Binding ElementName=Root,Path=Entry.StartTime}">
+                    
+                </control:CustomTimePicker>
+            </u:Form>
+        </Panel>
+        <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding #Root.IsMarkdown}">
+            <TextBox Name="MdTextBox" Padding="3" VerticalContentAlignment="Top"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left"
+                     AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Entry.Description,ElementName=Root}">
+                <TextBox.Styles>
+                    <Style Selector="TextBox">
+                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
+                    </Style>
+                    <Style Selector="TextBox:pointerover /template/ ContentPresenter">
+                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
+                    </Style>
+                </TextBox.Styles>
+            </TextBox>
+        </Panel>
+
+    </Panel>
+</UserControl>

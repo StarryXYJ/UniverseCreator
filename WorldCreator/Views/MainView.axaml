@@ -3,23 +3,221 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:WorldCreator.ViewModels"
-             xmlns:v="clr-namespace:WorldCreator.Views"
-             xmlns:m="clr-namespace:WorldCreator.Model"
+             xmlns:u="https://irihi.tech/ursa"
+             xmlns:model="clr-namespace:WorldCreator.Model"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="WorldCreator.Views.MainView"
-             xmlns:md="https://github.com/whistyun/Markdown.Avalonia.Tight"
-             xmlns:u="clr-namespace:Markdown.Avalonia.Utils;assembly=Markdown.Avalonia"
-             xmlns:mde="https://github.com/whistyun/Markdown.Avalonia.SyntaxHigh"
-             xmlns:cmd="clr-namespace:WorldCreator.Core.Command"
+             Bounds="{Binding ControlSize,Mode=OneWayToSource}"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel/>
-  </Design.DataContext>
-    <Panel>
-        <ContentControl Content="{Binding NavigationService.CurrentViewModel}"></ContentControl>
-        
-    </Panel>
-  
+        <vm:MainViewModel />
+    </Design.DataContext>
+    <Grid Margin="0,30,0,0"
+          RowDefinitions="*,Auto"
+          ColumnDefinitions="Auto,*">
+        <Border
+            IsVisible="{Binding IsLeftVisible,Mode=OneWay}"
+            Padding="0"
+            HorizontalAlignment="Left"
+            Theme="{DynamicResource CardBorder}">
+            <StackPanel>
+                <ToggleButton Margin="0,5,0,0" Cursor="Hand" HorizontalAlignment="Left" Name="Collapse"
+                              Click="Collapse_OnClick">
+                    <ToggleButton.Styles>
+                        <Style Selector="ToggleButton">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="ToggleButton:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="ToggleButton:checked /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="Transparent" />
+                        </Style>
+                        <Style Selector="ToggleButton:unchecked /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                    </ToggleButton.Styles>
+                    <u:TwoTonePathIcon
+                        Width="16"
+                        Height="16"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        ActiveForeground="{DynamicResource SemiColorPrimaryActive}"
+                        ActiveStrokeBrush="{DynamicResource SemiColorPrimary}"
+                        Data="{StaticResource MenuIcon}"
+                        Foreground="{DynamicResource SemiGrey5}"
+                        IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ToggleButton}, Path=IsChecked, Mode=TwoWay}"
+                        StrokeBrush="{DynamicResource SemiGrey5}" />
+                </ToggleButton>
+
+
+                <u:SelectionList x:Name="VerticalList" SelectedItem="{Binding SelectedMenuItem,Mode=TwoWay}"
+                                 Width="200"
+                                 SelectedIndex="{Binding SelectedIndex}" Name="SelectionList">
+                    <u:SelectionList.Items>
+                        <model:MenuItemModel Header="主页" Icon="{StaticResource StoreIcon}" />
+                        <model:MenuItemModel Header="关于" Icon="{StaticResource StoreIcon}" />
+                    </u:SelectionList.Items>
+
+                    <u:SelectionList.Indicator>
+                        <Border Background="Transparent" CornerRadius="4">
+                            <Border
+                                Width="4"
+                                Margin="0,8"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Stretch"
+                                Background="{DynamicResource SemiColorPrimary}"
+                                CornerRadius="4" />
+                        </Border>
+                    </u:SelectionList.Indicator>
+                    <u:SelectionList.ItemTemplate>
+                        <DataTemplate DataType="model:MenuItemModel">
+                            <StackPanel Margin="5,0,0,0" HorizontalAlignment="Stretch" Orientation="Horizontal"
+                                        Cursor="Hand" Height="40">
+                                <u:TwoTonePathIcon
+                                    Width="16"
+                                    Height="16"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    ActiveForeground="{DynamicResource SemiColorPrimaryActive}"
+                                    ActiveStrokeBrush="{DynamicResource SemiColorPrimary}"
+                                    Data="{Binding Icon}"
+                                    Foreground="{DynamicResource SemiGrey5}"
+                                    IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:SelectionListItem}, Path=IsSelected, Mode=TwoWay}"
+                                    StrokeBrush="{DynamicResource SemiGrey5}" />
+                                <TextBlock
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    Classes.Active="{Binding $parent[u:SelectionListItem].IsSelected, Mode=OneWay}"
+                                    Text="{Binding Header}">
+                                    <TextBlock.Styles>
+                                        <Style Selector="TextBlock.Active">
+                                            <Setter Property="Foreground"
+                                                    Value="{DynamicResource SemiColorPrimaryActive}" />
+                                        </Style>
+                                    </TextBlock.Styles>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </u:SelectionList.ItemTemplate>
+                </u:SelectionList>
+            </StackPanel>
+
+
+            <!-- <u:NavMenu -->
+            <!-- -->
+            <!--     Name="menu" -->
+            <!--     VerticalAlignment="Top" -->
+            <!--     ExpandWidth="300" -->
+            <!--     CollapseWidth="40" -->
+            <!--     IsHorizontalCollapsed="{Binding #Collapse.IsChecked}" -->
+            <!--     SelectedItem="{Binding SelectedMenuItem,Mode=OneWayToSource}" -->
+            <!--     Classes="enable_animation"> -->
+            <!-- -->
+            <!--     <u:NavMenuItem Header="首页"> -->
+            <!--         <u:NavMenuItem.Icon> -->
+            <!--             <u:TwoTonePathIcon -->
+            <!--                 Width="16" -->
+            <!--                 Height="16" -->
+            <!--                 VerticalAlignment="Center" -->
+            <!--                 HorizontalAlignment="Left" -->
+            <!--                 ActiveForeground="{DynamicResource SemiViolet5}" -->
+            <!--                 ActiveStrokeBrush="{DynamicResource SemiViolet4}" -->
+            <!--                 Data="{DynamicResource store_microsoft_regular}" -->
+            <!--                 Foreground="{DynamicResource SemiGrey5}" -->
+            <!--                 IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}" -->
+            <!--                 StrokeBrush="{DynamicResource SemiGrey5}" /> -->
+            <!--         </u:NavMenuItem.Icon> -->
+            <!--     </u:NavMenuItem> -->
+            <!--     <u:NavMenuItem Header="关系"> -->
+            <!--         <u:NavMenuItem.Icon> -->
+            <!--             <u:TwoTonePathIcon -->
+            <!--                 Width="16" -->
+            <!--                 Height="16" -->
+            <!--                 VerticalAlignment="Center" -->
+            <!--                 HorizontalAlignment="Left" -->
+            <!--                 ActiveForeground="{DynamicResource SemiViolet5}" -->
+            <!--                 ActiveStrokeBrush="{DynamicResource SemiViolet5}" -->
+            <!--                 Data="{DynamicResource store_microsoft_regular}" -->
+            <!--                 Foreground="{DynamicResource SemiGrey5}" -->
+            <!--                 IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}" -->
+            <!--                 StrokeBrush="{DynamicResource SemiGrey5}" /> -->
+            <!--         </u:NavMenuItem.Icon> -->
+            <!--     </u:NavMenuItem> -->
+            <!-- </u:NavMenu> -->
+
+            <!-- <u:NavMenu -->
+            <!--     Name="menu" -->
+            <!--     ExpandWidth="400" -->
+            <!--     HeaderBinding="{Binding Header}" -->
+            <!--     IconBinding="{Binding Icon}" -->
+            <!--     IsHorizontalCollapsed="{Binding #Collapse.IsChecked, Mode=OneWay}" -->
+            <!--     ItemsSource="{Binding MenuItems}" -->
+            <!--     SelectedItem="{Binding SelectedMenuItem}" -->
+            <!--     Classes="enable_animation"> -->
+            <!--     <u:NavMenu.IconTemplate> -->
+            <!--         <DataTemplate DataType="x:Int32"> -->
+            <!--             <u:TwoTonePathIcon -->
+            <!--                 Width="16" -->
+            <!--                 Height="16" -->
+            <!--                 ActiveForeground="{DynamicResource SemiBlue5}" -->
+            <!--                 ActiveStrokeBrush="{DynamicResource SemiBlue5}" -->
+            <!--                 Data="{Binding }" -->
+            <!--                 Foreground="{DynamicResource SemiGrey5}" -->
+            <!--                 IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=u:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}" -->
+            <!--                 StrokeBrush="{DynamicResource SemiGrey5}" /> -->
+            <!--         </DataTemplate> -->
+            <!--     </u:NavMenu.IconTemplate> -->
+            <!-- </u:NavMenu> -->
+
+        </Border>
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                IsVisible="{Binding IsBottomVisible,Mode=OneWay}"
+                Padding="0" Margin="1"
+                Theme="{DynamicResource CardBorder}">
+            <u:SelectionList
+                HorizontalAlignment="Center"
+                ItemsSource="{Binding Items,ElementName=VerticalList}"
+                SelectedItem="{Binding SelectedMenuItem}">
+                <u:SelectionList.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </u:SelectionList.ItemsPanel>
+                <u:SelectionList.Indicator>
+                    <Border Background="{DynamicResource SemiColorPrimaryLightPointerover}" CornerRadius="4" />
+                </u:SelectionList.Indicator>
+
+                <u:SelectionList.ItemTemplate>
+                    <DataTemplate DataType="model:MenuItemModel">
+                        <Panel Margin="0,0,0,0" HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Cursor="Hand" Height="30">
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                FontSize="20"
+                                VerticalAlignment="Center"
+                                Classes.Active="{Binding $parent[u:SelectionListItem].IsSelected, Mode=OneWay}"
+                                Text="{Binding Header}">
+                                <TextBlock.Styles>
+                                    <Style Selector="TextBlock.Active">
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource SemiColorPrimaryActive}" />
+                                    </Style>
+                                </TextBlock.Styles>
+                            </TextBlock>
+                        </Panel>
+                    </DataTemplate>
+                </u:SelectionList.ItemTemplate>
+            </u:SelectionList>
+        </Border>
+        <ContentControl Grid.Column="1" Grid.Row="0" Content="{Binding NavigationService.CurrentViewModel}" />
+
+    </Grid>
+
 </UserControl>

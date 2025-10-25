@@ -1,0 +1,154 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mdxaml="https://github.com/whistyun/Markdown.Avalonia"
+             xmlns:avalonia="https://github.com/whistyun/Markdown.Avalonia.Tight"
+             xmlns:commands="clr-namespace:WorldCreator.Core.Commands"
+             xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
+             xmlns:mdctl="clr-namespace:Markdown.Avalonia.Controls;assembly=Markdown.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Control.MdViewer"
+             Name="Root">
+    <mdxaml:MarkdownScrollViewer SelectionEnabled="False" Markdown="{Binding Entry.Description,ElementName=Root}"
+                                 Margin="5"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch">
+
+        <mdxaml:MarkdownScrollViewer.Resources>
+            <commands:HyperlinkClickCommand x:Key="HyperlinkClickCommand" />
+        </mdxaml:MarkdownScrollViewer.Resources>
+        <mdxaml:MarkdownScrollViewer.Engine>
+            <avalonia:Markdown
+                HyperlinkCommand="{StaticResource HyperlinkClickCommand}" />
+        </mdxaml:MarkdownScrollViewer.Engine>
+        <mdxaml:MarkdownScrollViewer.Styles>
+            <Style Selector="mdxaml|MarkdownScrollViewer">
+                <Setter Property="SelectionBrush" Value="{StaticResource SemiColorFill1}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading1">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading2">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading3">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading4">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading5">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="ctxt|CTextBlock.Heading6">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+            </Style>
+            <Style Selector="Border.Blockquote">
+                <Setter Property="BorderBrush" Value="{DynamicResource SemiColorPrimary}" />
+                <Setter Property="Background" Value="{DynamicResource SemiColorBackground3}" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="CornerRadius" Value="10" />
+            </Style>
+            <Style Selector="Border.CodeBlock">
+                <Style.Setters>
+                    <Setter Property="BorderBrush" Value="{DynamicResource SemiColorPrimary}" />
+                    <Setter Property="BorderThickness" Value="0,3,0,3" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="CornerRadius" Value="3" />
+                    <Setter Property="Background" Value="{DynamicResource SemiColorBackground3}" />
+                </Style.Setters>
+            </Style>
+            <Style Selector="TextBlock.CodeBlock">
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="{DynamicResource SemiColorText0}" />
+                    <Setter Property="FontSize" Value="16" />
+
+                </Style.Setters>
+            </Style>
+            <Style Selector=".CodeBlock Button.CopyButton TextBlock">
+                <Setter Property="Text" Value="📋" />
+            </Style>
+
+            <Style Selector="mdctl|Rule.Single">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorSecondary}" />
+            </Style>
+
+            <Style Selector="mdctl|Rule.TwoLines">
+                <Setter Property="SingleLineWidth" Value="2" />
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorSecondary}" />
+            </Style>
+
+            <Style Selector="mdctl|Rule.Bold">
+                <Setter Property="BoldLineWidth" Value="12" />
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorSecondary}" />
+            </Style>
+
+            <Style Selector="mdctl|Rule.BoldWithSingle">
+                <Setter Property="SingleLineWidth" Value="2" />
+                <Setter Property="LineMargin" Value="6" />
+                <Setter Property="BoldLineWidth" Value="4" />
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorSecondary}" />
+            </Style>
+            <!-- HyperLink -->
+
+            <Style Selector=".Markdown_Avalonia_MarkdownViewer ctxt|CHyperlink">
+                <Setter Property="IsUnderline" Value="False" />
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorLink}" />
+                <Setter Property="HoverForeground" Value="{DynamicResource SemiColorLinkPointerover}" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+            <Style Selector=".Markdown_Avalonia_MarkdownViewer ctxt|CHyperlink:pointerover">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorLinkPointerover}" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+            <Style Selector=".Markdown_Avalonia_MarkdownViewer ctxt|CHyperlink:pressed">
+                <Setter Property="Foreground" Value="{DynamicResource SemiColorLinkVisited}" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+            </Style>
+            <!-- Table -->
+            <Style Selector="Border.Table">
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <Style Selector="Grid.Table">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style Selector="Border.TableHeader">
+                <Setter Property="Margin" Value="0,0,0,1" />
+                <Setter Property="BorderBrush" Value="{DynamicResource SemiColorPrimary}" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="Background" Value="{DynamicResource SemiColorBackground3}" />
+
+            </Style>
+
+            <Style Selector="Border.OddTableRow">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="BorderBrush" Value="{DynamicResource SemiColorSecondary}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+            <Style Selector="Border.EvenTableRow">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="BorderBrush" Value="{DynamicResource SemiColorSecondary}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+
+
+        </mdxaml:MarkdownScrollViewer.Styles>
+        <!-- <md:MarkdownScrollViewer.Plugins> -->
+        <!--     <md:MdAvPlugins> -->
+        <!--         <mdxaml:ChatAISetup/> -->
+        <!--     </md:MdAvPlugins> -->
+        <!-- </md:MarkdownScrollViewer.Plugins> -->
+    </mdxaml:MarkdownScrollViewer>
+</UserControl>

@@ -1,48 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
+using WorldCreator.Model.Time;
 
 namespace WorldCreator.Model;
-
-public enum EntryType
-{
-    Default,
-    Event,
-    Character
-}
 
 /// <summary>
 ///     词条
 /// </summary>
-public class Entry
+public partial class Entry : ObservableObject
 {
-    public Entry(string name, string description, byte priority, List<EntryProperty>? properties, DateTime startTime,
-        DateTime endTime, EntryType type)
+    public Entry(string name, string description, byte priority, ObservableCollection<EntryProperty> properties,
+        CustomDateTime startTime,
+        CustomDateTime endTime)
     {
         Name = name;
         Description = description;
         Priority = priority;
-        Properties = properties ?? [];
+        Properties = properties;
         StartTime = startTime;
         EndTime = endTime;
-        Type = type;
     }
 
-    public Entry(string name, string description, byte priority, List<EntryProperty>? properties) : this(name,
-        description, priority, properties, DateTime.MinValue, DateTime.MinValue, EntryType.Default)
+    public Entry(string name, string description, byte priority, ObservableCollection<EntryProperty> properties) : this(
+        name,
+        description, priority, properties,
+        new CustomDateTime(1,1,1,GregorianCalendarRule.Instance), 
+        new CustomDateTime(1,1,1,GregorianCalendarRule.Instance))
     {
     }
 
 
     [Key] public int Id { get; set; }
 
-    public string Name { get; set; } = "";
-    public List<string> Tags { get; set; } = new();
-    public List<string> SubNames { get; set; } = new();
-    public byte Priority { get; set; }
-    public DateTime StartTime { get; set; } = DateTime.MinValue;
-    public DateTime EndTime { get; set; } = DateTime.MinValue;
-    public string Description { get; set; } = "";
-    public List<EntryProperty> Properties { get; set; } = new();
-    public EntryType Type { get; set; } = EntryType.Default;
+    [ObservableProperty] private string _name;
+    public ObservableCollection<string> Tags { get; set; }
+    public ObservableCollection<string> SubNames { get; set; }
+    public ObservableCollection<EntryProperty> Properties { get; set; }
+    [ObservableProperty] private double _priority;
+    [ObservableProperty] private CustomDateTime? _startTime;
+    [ObservableProperty] private CustomDateTime? _endTime;
+    [ObservableProperty] private string _description;
 }

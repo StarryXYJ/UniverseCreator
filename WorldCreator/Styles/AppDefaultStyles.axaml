@@ -43,14 +43,14 @@
     </Style>
 
 
-    <!-- <Style Selector="Button.transparent"> -->
-    <!--     <Setter Property="Background" Value="transparent" /> -->
-    <!--     <Setter Property="BorderBrush" Value="Transparent" /> -->
-    <!-- </Style> -->
-    <!-- <Style Selector="Button.transparent:pointerover /template/ ContentPresenter"> -->
-    <!--     <Setter Property="Background" Value="transparent" /> -->
-    <!--     <Setter Property="BorderBrush" Value="Transparent" /> -->
-    <!-- </Style> -->
+    <Style Selector="Button.transparent">
+        <Setter Property="Background" Value="transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.transparent:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
     <Style Selector="Button.Proj">
         <Setter Property="RenderTransform" Value="scale(1)" />
         <Setter Property="Transitions">

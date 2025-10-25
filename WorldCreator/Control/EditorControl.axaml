@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:model="clr-namespace:WorldCreator.Model"
+             xmlns:u="https://irihi.tech/ursa"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="WorldCreator.Control.EditorControl"
+             Name="Root">
+    <Border Theme="{DynamicResource CardBorder}">
+        <TabControl
+            TabStripPlacement="Top"
+            Theme="{DynamicResource ScrollCardTabControl}"
+            ItemsSource="{Binding Entries, ElementName=Root}">
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="model:Entry">
+                    <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
+                        <TextBlock MaxWidth="100"
+                                   MinWidth="40"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Name}">
+                        </TextBlock>
+                        <Button CornerRadius="10" Padding="0" Width="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                      Height="16"
+                                      MinHeight="0" MinWidth="0"
+                                      Margin="8,0,0,0"
+                                      Background="Transparent"
+                                      Foreground="{DynamicResource SemiColorPrimary}"
+                                      Click="Button_OnClick">
+                            <TextBlock Margin="1,0,0,3" Text="x" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                        </Button>
+                    </StackPanel>
+
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="model:Entry">
+                    <TextBlock Text="{Binding Description}"></TextBlock>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Border>
+</UserControl>
