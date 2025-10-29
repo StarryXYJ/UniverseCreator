@@ -9,8 +9,6 @@ namespace WorldCreator.Control;
 
 public partial class CustomTimePicker : UserControl
 {
-    
-    
     public static readonly StyledProperty<CustomDateTime> DateTimeProperty =
         AvaloniaProperty.Register<CustomTimePicker, CustomDateTime>(
             nameof(Calendar));
@@ -30,24 +28,14 @@ public partial class CustomTimePicker : UserControl
         set => SetValue(HeaderProperty, value);
     }
 
-    internal static readonly StyledProperty<BindingTime> BindingDateTimeProperty = AvaloniaProperty.Register<CustomTimePicker, BindingTime>(
-        nameof(BindingTime));
-
-    internal BindingTime BindingDateTime
-    {
-        get => GetValue(BindingDateTimeProperty);
-        set => SetValue(BindingDateTimeProperty, value);
-    }
 
     public CustomTimePicker()
     {
         InitializeComponent();
-        
     }
 
 
-    private void AppleModifyEvent(object? sender, RoutedEventArgs e)
+    private void Debug(object? sender, RoutedEventArgs e)
     {
-        DateTime = BindingDateTime;
     }
 }

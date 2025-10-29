@@ -1,4 +1,6 @@
-﻿namespace WorldCreator.Model.Time;
+﻿using System.Numerics;
+
+namespace WorldCreator.Model.Time;
 
 /// <summary>
 ///     历法规则的抽象基类。
@@ -43,13 +45,13 @@ public abstract class CustomCalendarRule
     /// <summary>
     ///     将自纪元以来的总毫秒数转换为日期时间组件。
     /// </summary>
-    public abstract void FromTotalMillisecondsFromEpoch(long totalMilliseconds, out long year, out int month,
+    public abstract void FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds, out long year, out int month,
         out int day, out int hour, out int minute, out int second, out int millisecond);
 
     /// <summary>
     ///     将自纪元以来的总毫秒数转换为日期时间组件。
     /// </summary>
-    public (long, int, int, int, int, int, int) FromTotalMillisecondsFromEpoch(long totalMilliseconds)
+    public (long, int, int, int, int, int, int) FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds)
     {
         FromTotalMillisecondsFromEpoch(totalMilliseconds, out var year, out var month, out var day, out var hour,
             out var minute,

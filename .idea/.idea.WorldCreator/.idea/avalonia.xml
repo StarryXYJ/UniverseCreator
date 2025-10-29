@@ -9,7 +9,7 @@
         <entry key="WorldCreator/Assets/Icons.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
         <entry key="WorldCreator/Assets/MarkDownScrollViewerStyle.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
         <entry key="WorldCreator/Control/CustomTimePicher.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
-        <entry key="WorldCreator/Control/CustomTimePicker.axaml" value="WorldCreator.Browser/WorldCreator.Browser.csproj" />
+        <entry key="WorldCreator/Control/CustomTimePicker.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
         <entry key="WorldCreator/Control/EditControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
         <entry key="WorldCreator/Control/EditorControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />
         <entry key="WorldCreator/Control/EntryControl.axaml" value="WorldCreator.Desktop/WorldCreator.Desktop.csproj" />

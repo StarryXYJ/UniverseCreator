@@ -61,7 +61,7 @@
                 Grid.Row="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=2}"
                 Padding="0"
                 Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <control:EditControl Entry="{Binding #Root.Entry}"></control:EditControl>
+                <control:EditControl Name="EditControl1" Entry="{Binding #Root.Entry}"></control:EditControl>
             </Border>
         </Grid>
         <Grid Grid.Row="1"
@@ -80,7 +80,7 @@
                 Grid.Column="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=2}"
                 Padding="0"
                 Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <control:EditControl Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+                <control:EditControl IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}" Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
             </Border>
         </Grid>
         <Border
@@ -95,7 +95,7 @@
             Padding="0"
             Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             IsVisible="{Binding #Root.IsEditorVisible}">
-            <control:EditControl Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+            <control:EditControl  IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}" Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
         </Border>
     </Grid>
 </UserControl>

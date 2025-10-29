@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace WorldCreator.Model.Time;
 
@@ -8,9 +9,9 @@ namespace WorldCreator.Model.Time;
 /// </summary>
 public readonly struct CustomTimeSpan : IComparable<CustomTimeSpan>, IEquatable<CustomTimeSpan>
 {
-    public readonly long TotalMilliseconds;
+    public readonly BigInteger TotalMilliseconds;
 
-    public CustomTimeSpan(long milliseconds)
+    public CustomTimeSpan(BigInteger milliseconds)
     {
         TotalMilliseconds = milliseconds;
     }

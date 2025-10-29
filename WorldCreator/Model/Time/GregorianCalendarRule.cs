@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace WorldCreator.Model.Time;
 
@@ -64,8 +65,8 @@ public sealed class GregorianCalendarRule : CustomCalendarRule
     public override long ToTotalMillisecondsFromEpoch(long year, int month, int day, int hour, int minute, int second,
         int millisecond)
     {
-        // 验证输入
-        if (year == 0)
+        // 验证输入，报错版本
+        /*if (year == 0)
             throw new ArgumentOutOfRangeException(nameof(year),
                 "Year 0 不受支持。公元前年份请使用负数 (例如, 1 BC 为 Year 0, 2 BC 为 Year -1)。");
         if (month < 1 || month > 12) throw new ArgumentOutOfRangeException(nameof(month));
@@ -74,8 +75,20 @@ public sealed class GregorianCalendarRule : CustomCalendarRule
         if (minute < 0 || minute >= MinutesInHour) throw new ArgumentOutOfRangeException(nameof(minute));
         if (second < 0 || second >= SecondsInMinute) throw new ArgumentOutOfRangeException(nameof(second));
         if (millisecond < 0 || millisecond >= MillisecondsInSecond)
-            throw new ArgumentOutOfRangeException(nameof(millisecond));
-
+            throw new ArgumentOutOfRangeException(nameof(millisecond));*/
+        if (year == 0) year = 1;
+        if (month < 1) month = 1;
+        if (month > 12) month = 12;
+        if (day < 1) day = 1;
+        if (day > GetDaysInMonth(year, month)) day = GetDaysInMonth(year, month);
+        if (hour < 0) hour = 0;
+        if (hour >= HoursInDay) hour = HoursInDay - 1;
+        if (minute < 0) minute = 0;
+        if (minute >= MinutesInHour) minute = MinutesInHour - 1;
+        if (second < 0) second = 0;
+        if (second >= SecondsInMinute) second = SecondsInMinute - 1;
+        if (millisecond < 0) millisecond = 0;
+        if (millisecond >= MillisecondsInSecond) millisecond = MillisecondsInSecond - 1;
         long totalDaysFromEpoch = 0;
 
         // 计算从纪元年到当前年之前的总天数
@@ -101,16 +114,16 @@ public sealed class GregorianCalendarRule : CustomCalendarRule
         return totalMilliseconds;
     }
 
-    public override void FromTotalMillisecondsFromEpoch(long totalMilliseconds, out long year, out int month,
+    public override void FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds, out long year, out int month,
         out int day, out int hour, out int minute, out int second, out int millisecond)
     {
-        var totalDaysFromEpoch = Math.DivRem(totalMilliseconds, TotalMillisecondsInDay, out var remainingMsInDay);
+        var totalDaysFromEpoch = BigInteger.DivRem(totalMilliseconds, TotalMillisecondsInDay, out var remainingMsInDay);
 
         // 提取时间组件
-        hour = (int)Math.DivRem(remainingMsInDay, MinutesInHour * SecondsInMinute * MillisecondsInSecond,
+        hour = (int)BigInteger.DivRem(remainingMsInDay, MinutesInHour * SecondsInMinute * MillisecondsInSecond,
             out remainingMsInDay);
-        minute = (int)Math.DivRem(remainingMsInDay, SecondsInMinute * MillisecondsInSecond, out remainingMsInDay);
-        second = (int)Math.DivRem(remainingMsInDay, MillisecondsInSecond, out remainingMsInDay);
+        minute = (int)BigInteger.DivRem(remainingMsInDay, SecondsInMinute * MillisecondsInSecond, out remainingMsInDay);
+        second = (int)BigInteger.DivRem(remainingMsInDay, MillisecondsInSecond, out remainingMsInDay);
         millisecond = (int)remainingMsInDay;
 
         // 提取日期组件 (年, 月, 日)
@@ -145,8 +158,8 @@ public sealed class GregorianCalendarRule : CustomCalendarRule
 
         month = 1;
         while (month <= 12 && currentDays >= daysToMonth[month]) month++;
-        month--; // 减去 1 得到正确的月份索引 (因为 daysToMonth[month] 是到 month 结束的累计天数)
-        day = (int)(currentDays - daysToMonth[month]) + 1; // 1-based 日期
+        // 减去 1 得到正确的月份索引 (因为 daysToMonth[month] 是到 month 结束的累计天数)
+        day = (int)(currentDays - daysToMonth[month - 1]) + 1; // 1-based 日期
 
         // 修正 month/day 如果 currentDays 导致 month 溢出
         if (month == 0) // 这意味着 currentDays 为 0, 对应 1月1日

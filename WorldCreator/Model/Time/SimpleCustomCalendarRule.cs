@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace WorldCreator.Model.Time;
 
@@ -144,16 +145,16 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
         return totalMilliseconds;
     }
 
-    public override void FromTotalMillisecondsFromEpoch(long totalMilliseconds, out long year, out int month,
+    public override void FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds, out long year, out int month,
         out int day, out int hour, out int minute, out int second, out int millisecond)
     {
-        var totalDaysFromEpoch = Math.DivRem(totalMilliseconds, TotalMillisecondsInDay, out var remainingMsInDay);
+        var totalDaysFromEpoch = BigInteger.DivRem(totalMilliseconds, TotalMillisecondsInDay, out var remainingMsInDay);
 
         // 提取时间组件
-        hour = (int)Math.DivRem(remainingMsInDay, MinutesInHour * SecondsInMinute * MillisecondsInSecond,
+        hour = (int)BigInteger.DivRem(remainingMsInDay, MinutesInHour * SecondsInMinute * MillisecondsInSecond,
             out remainingMsInDay);
-        minute = (int)Math.DivRem(remainingMsInDay, SecondsInMinute * MillisecondsInSecond, out remainingMsInDay);
-        second = (int)Math.DivRem(remainingMsInDay, MillisecondsInSecond, out remainingMsInDay);
+        minute = (int)BigInteger.DivRem(remainingMsInDay, SecondsInMinute * MillisecondsInSecond, out remainingMsInDay);
+        second = (int)BigInteger.DivRem(remainingMsInDay, MillisecondsInSecond, out remainingMsInDay);
         millisecond = (int)remainingMsInDay;
 
         // 提取日期组件 (年, 月, 日)
@@ -161,24 +162,25 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
 
         if (totalDaysFromEpoch >= 0)
         {
-            year = EpochYear + totalDaysFromEpoch / _daysInYearCalculated;
-            daysInCurrentYear = totalDaysFromEpoch % _daysInYearCalculated;
+            var y = (long)BigInteger.DivRem(totalDaysFromEpoch, _daysInYearCalculated, out var remainder);
+            year = EpochYear + y;
+            daysInCurrentYear = (long)remainder;
         }
         else // totalDaysFromEpoch 为负数 (公元前)
         {
-            var absoluteDays = Math.Abs(totalDaysFromEpoch);
+            var absoluteDays = BigInteger.Abs(totalDaysFromEpoch);
             var yearsBeforeEpoch = absoluteDays / _daysInYearCalculated;
             var daysIntoYearBeforeEpoch = absoluteDays % _daysInYearCalculated; // 0-based from end of year
 
             if (daysIntoYearBeforeEpoch == 0)
             {
-                year = EpochYear - yearsBeforeEpoch;
+                year = (long)((BigInteger)EpochYear - yearsBeforeEpoch);
                 daysInCurrentYear = 0; // 1月1日是第0天
             }
             else
             {
-                year = EpochYear - yearsBeforeEpoch - 1;
-                daysInCurrentYear = _daysInYearCalculated - daysIntoYearBeforeEpoch; // 0-based 从年头开始计算
+                year = (long)(EpochYear - yearsBeforeEpoch - 1);
+                daysInCurrentYear = (long)(_daysInYearCalculated - daysIntoYearBeforeEpoch); // 0-based 从年头开始计算
             }
         }
 

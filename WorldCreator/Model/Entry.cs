@@ -36,8 +36,8 @@ public partial class Entry : ObservableObject
     [Key] public int Id { get; set; }
 
     [ObservableProperty] private string _name;
-    public ObservableCollection<string> Tags { get; set; }
-    public ObservableCollection<string> SubNames { get; set; }
+    public ObservableCollection<string>? Tags { get; set; }
+    public ObservableCollection<string>? SubNames { get; set; }
     public ObservableCollection<EntryProperty> Properties { get; set; }
     [ObservableProperty] private double _priority;
     [ObservableProperty] private CustomDateTime? _startTime;

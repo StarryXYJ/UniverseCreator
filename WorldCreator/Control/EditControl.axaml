@@ -8,7 +8,7 @@
              x:Class="WorldCreator.Control.EditControl"
              Name="Root">
     <Panel>
-        <Panel Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <ScrollViewer Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                IsVisible="{Binding !#Root.IsMarkdown}">
             <u:Form LabelPosition="Left" LabelWidth="*">
                 <TextBox u:FormItem.Label="名称" Text="{Binding Entry.Name, ElementName=Root, Mode=TwoWay}" />
@@ -30,21 +30,28 @@
                 <control:CustomTimePicker Header="开始时间" DateTime="{Binding ElementName=Root,Path=Entry.StartTime}">
                     
                 </control:CustomTimePicker>
+                <control:CustomTimePicker Header="结束时间" DateTime="{Binding ElementName=Root,Path=Entry.EndTime}">
+                    
+                </control:CustomTimePicker>
             </u:Form>
-        </Panel>
+        </ScrollViewer>
         <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsVisible="{Binding #Root.IsMarkdown}">
-            <TextBox Name="MdTextBox" Padding="3" VerticalContentAlignment="Top"
-                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left"
-                     AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Entry.Description,ElementName=Root}">
-                <TextBox.Styles>
-                    <Style Selector="TextBox">
-                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
-                    </Style>
-                    <Style Selector="TextBox:pointerover /template/ ContentPresenter">
-                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
-                    </Style>
-                </TextBox.Styles>
-            </TextBox>
+            <Grid RowDefinitions="Auto,*">
+                <u:IconButton Margin="5" HorizontalAlignment="Left" FontSize="16" Click="ChangeView">返回</u:IconButton>
+                <TextBox Grid.Row="1" Name="MdTextBox" Padding="3" VerticalContentAlignment="Top"
+                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left"
+                         AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Entry.Description,ElementName=Root}">
+                                <TextBox.Styles>
+                                    <Style Selector="TextBox">
+                                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
+                                    </Style>
+                                    <Style Selector="TextBox:pointerover /template/ ContentPresenter">
+                                        <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
+                                    </Style>
+                                </TextBox.Styles>
+                            </TextBox>
+            </Grid>
+            
         </Panel>
 
     </Panel>
