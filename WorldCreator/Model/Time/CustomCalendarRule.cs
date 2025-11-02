@@ -12,12 +12,12 @@ public abstract class CustomCalendarRule
     public abstract int HoursInDay { get; }
     public abstract int MinutesInHour { get; } // 通常为 60
     public abstract int SecondsInMinute { get; } // 通常为 60
-    public abstract int MillisecondsInSecond { get; } // 通常为 1000
+
 
     /// <summary>
-    ///     计算一天中的总毫秒数。
+    ///     计算一天中的总秒数。
     /// </summary>
-    public long TotalMillisecondsInDay => HoursInDay * MinutesInHour * SecondsInMinute * MillisecondsInSecond;
+    public int TotalSecondsInDay => HoursInDay * MinutesInHour * SecondsInMinute;
 
     /// <summary>
     ///     获取给定年份的天数。
@@ -39,23 +39,24 @@ public abstract class CustomCalendarRule
     ///     纪元定义为 Year 1, Month 1, Day 1, 00:00:00.000。
     ///     公元前年份使用负数表示 (例如, 1 BC 为 Year 0, 2 BC 为 Year -1)。
     /// </summary>
-    public abstract long ToTotalMillisecondsFromEpoch(long year, int month, int day, int hour, int minute, int second,
-        int millisecond);
+    public abstract BigInteger ToTotalSecondsFromEpoch(long year, int month, int day, int hour, int minute, int second);
 
     /// <summary>
     ///     将自纪元以来的总毫秒数转换为日期时间组件。
     /// </summary>
-    public abstract void FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds, out long year, out int month,
-        out int day, out int hour, out int minute, out int second, out int millisecond);
+    public abstract void FromTotalSecondsToEpoch(BigInteger totalSeconds, out long year, out int month,
+        out int day, out int hour, out int minute, out int second);
 
     /// <summary>
     ///     将自纪元以来的总毫秒数转换为日期时间组件。
+    ///     返回一个包含 (year, month, day, hour, minute, second, millisecond) 的元组。
+    ///     更现代化的用法。(比Vibe coding得到的好)
     /// </summary>
-    public (long, int, int, int, int, int, int) FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds)
+    public (long, int, int, int, int, int) FromTotalSecondsToEpoch(BigInteger totalSeconds)
     {
-        FromTotalMillisecondsFromEpoch(totalMilliseconds, out var year, out var month, out var day, out var hour,
+        FromTotalSecondsToEpoch(totalSeconds, out var year, out var month, out var day, out var hour,
             out var minute,
-            out var second, out var millisecond);
-        return (year, month, day, hour, minute, second, millisecond);
+            out var second);
+        return (year, month, day, hour, minute, second);
     }
 }

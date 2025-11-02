@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Numerics;
 using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -15,7 +16,7 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
     public CustomCalendarRule Calendar { get; }
 
 
-    public BigInteger TotalMilliseconds { get; private set; }
+    public BigInteger TotalSeconds { get; private set; }
 
     [ObservableProperty, NotifyPropertyChangedFor(nameof(MonthInYear))]
     private long _year;
@@ -31,14 +32,87 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
 
     [ObservableProperty] private int _second;
 
-    [ObservableProperty] private int _millisecond;
+    partial void OnYearChanged(long oldValue, long newValue) => SyncTotal();
+
+    partial void OnMonthChanged(int oldValue, int newValue)
+    {
+        if (newValue <= 0)
+        {
+            Month = 1;
+        }
+        else if (newValue >= Calendar.GetMonthsInYear(Year))
+        {
+            Month = Calendar.GetMonthsInYear(Year);
+        }
+
+        SyncTotal();
+    }
+
+    partial void OnDayChanged(int oldValue, int newValue)
+    {
+        if (newValue <= 0)
+        {
+            Day = 1;
+        }
+        else if (newValue >= Calendar.GetDaysInMonth(Year, Month))
+        {
+            Day = Calendar.GetDaysInMonth(Year, Month);
+        }
+
+        SyncTotal();
+    }
+
+    partial void OnHourChanged(int oldValue, int newValue)
+    {
+        if (newValue < 0)
+        {
+            Hour = 0;
+        }
+        else if (newValue >= Calendar.HoursInDay)
+        {
+            Hour = Calendar.HoursInDay - 1;
+        }
+
+        SyncTotal();
+    }
+
+    partial void OnMinuteChanged(int oldValue, int newValue)
+    {
+        if (newValue < 0)
+        {
+            Minute = 0;
+        }
+        else if (newValue >= Calendar.MinutesInHour)
+        {
+            Minute = Calendar.MinutesInHour - 1;
+        }
+
+        SyncTotal();
+    }
+
+    partial void OnSecondChanged(int oldValue, int newValue)
+    {
+        if (newValue < 0)
+        {
+            Second = 0;
+        }
+        else if (newValue >= Calendar.SecondsInMinute)
+        {
+            Second = Calendar.SecondsInMinute - 1;
+        }
+
+        SyncTotal();
+    }
+
+    protected void SyncTotal() =>
+        TotalSeconds = Calendar.ToTotalSecondsFromEpoch(Year, Month, Day, Hour, Minute, Second);
 
     public CustomDateTime(long year, int month, int day, CustomCalendarRule calendar)
-        : this(year, month, day, 0, 0, 0, 0, calendar)
+        : this(year, month, day, 0, 0, 0, calendar)
     {
     }
 
-    public CustomDateTime(long year, int month, int day, int hour, int minute, int second, int millisecond,
+    public CustomDateTime(long year, int month, int day, int hour, int minute, int second,
         CustomCalendarRule calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
@@ -49,45 +123,27 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
         _hour = hour;
         _minute = minute;
         Second = second;
-        _millisecond = millisecond;
         _suppressNotifications = false;
         RecalculateFromComponents();
     }
 
-    private CustomDateTime(BigInteger totalMilliseconds, CustomCalendarRule calendar)
+    private CustomDateTime(BigInteger totalSeconds, CustomCalendarRule calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
-        TotalMilliseconds = totalMilliseconds;
+        TotalSeconds = totalSeconds;
         UpdateComponentsFromTotal();
-    }
-
-    partial void OnYearChanged(long value) => TriggerRecalcIfNotSuppressed();
-    partial void OnMonthChanged(int value) => TriggerRecalcIfNotSuppressed();
-    partial void OnDayChanged(int value) => TriggerRecalcIfNotSuppressed();
-    partial void OnHourChanged(int value) => TriggerRecalcIfNotSuppressed();
-    partial void OnMinuteChanged(int value) => TriggerRecalcIfNotSuppressed();
-    partial void OnSecondChanged(int value) => TriggerRecalcIfNotSuppressed();
-    partial void OnMillisecondChanged(int value) => TriggerRecalcIfNotSuppressed();
-
-
-    private void TriggerRecalcIfNotSuppressed()
-    {
-        if (_suppressNotifications) return;
-        RecalculateFromComponents();
     }
 
     private void RecalculateFromComponents()
     {
         if (_suppressNotifications) return;
-
         _suppressNotifications = true;
-        // 直接写入 backing field 避免再次触发 OnTotalMillisecondsChanged
-        TotalMilliseconds = Calendar.ToTotalMillisecondsFromEpoch(Year, Month, Day, Hour, Minute, Second, Millisecond);
+        // 直接写入 backing field 避免再次触发 OnTotalSecondsChanged
+        TotalSeconds = Calendar.ToTotalSecondsFromEpoch(Year, Month, Day, Hour, Minute, Second);
 
         // 归一化并更新各字段（直接写入 backing fields）
-        (Year, Month, Day, Hour, Minute, Second, Millisecond) =
-            Calendar.FromTotalMillisecondsFromEpoch(TotalMilliseconds);
-
+        (Year, Month, Day, Hour, Minute, Second) =
+            Calendar.FromTotalSecondsToEpoch(TotalSeconds);
 
         _suppressNotifications = false;
 
@@ -98,43 +154,50 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
         OnPropertyChanged(nameof(Hour));
         OnPropertyChanged(nameof(Minute));
         OnPropertyChanged(nameof(Second));
-        OnPropertyChanged(nameof(Millisecond));
-        OnPropertyChanged(nameof(TotalMilliseconds));
+        OnPropertyChanged(nameof(TotalSeconds));
     }
 
     private void UpdateComponentsFromTotal()
     {
         _suppressNotifications = true;
-        (Year, Month, Day, Hour, Minute, Second, Millisecond) =
-            Calendar.FromTotalMillisecondsFromEpoch(TotalMilliseconds);
-
+        (Year, Month, Day, Hour, Minute, Second) =
+            Calendar.FromTotalSecondsToEpoch(TotalSeconds);
         _suppressNotifications = false;
-
         OnPropertyChanged(nameof(Year));
         OnPropertyChanged(nameof(Month));
         OnPropertyChanged(nameof(Day));
         OnPropertyChanged(nameof(Hour));
         OnPropertyChanged(nameof(Minute));
         OnPropertyChanged(nameof(Second));
-        OnPropertyChanged(nameof(Millisecond));
     }
 
     public int CompareTo(CustomDateTime? other)
     {
-        if (other is null) throw new ArgumentNullException(nameof(other));
-        if (Calendar != other.Calendar) throw new ArgumentException("无法比较来自不同历法的 CustomDateTime 值。");
-        return TotalMilliseconds.CompareTo(other.TotalMilliseconds);
+        ArgumentNullException.ThrowIfNull(other);
+        //if (Calendar != other.Calendar) throw new ArgumentException("无法比较来自不同历法的 CustomDateTime 值。");
+        return TotalSeconds.CompareTo(other.TotalSeconds);
     }
 
     public bool Equals(CustomDateTime? other)
     {
         if (other is null) return false;
-        return TotalMilliseconds == other.TotalMilliseconds && Calendar == other.Calendar;
+        return TotalSeconds == other.TotalSeconds && Calendar == other.Calendar;
     }
 
-    public override bool Equals(object? obj) => obj is CustomDateTime cd && Equals(cd);
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        return obj.GetType() == GetType() && Equals((CustomDateTime)obj);
+    }
 
-    public override int GetHashCode() => HashCode.Combine(TotalMilliseconds, Calendar);
+    public override int GetHashCode()
+    {
+        var hashCode = new HashCode();
+        hashCode.Add(Calendar);
+        hashCode.Add(TotalSeconds);
+        return hashCode.ToHashCode();
+    }
 
     public static bool operator ==(CustomDateTime left, CustomDateTime right) => Equals(left, right);
     public static bool operator !=(CustomDateTime left, CustomDateTime right) => !Equals(left, right);
@@ -143,62 +206,17 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
     public static bool operator <=(CustomDateTime left, CustomDateTime right) => left.CompareTo(right) <= 0;
     public static bool operator >=(CustomDateTime left, CustomDateTime right) => left.CompareTo(right) >= 0;
 
-    public CustomDateTime AddMilliseconds(BigInteger milliseconds) =>
-        new CustomDateTime(TotalMilliseconds + milliseconds, Calendar);
-
-    public CustomDateTime AddSeconds(long seconds) => AddMilliseconds(seconds * Calendar.MillisecondsInSecond);
-    public CustomDateTime AddMinutes(long minutes) => AddSeconds(minutes * Calendar.SecondsInMinute);
-    public CustomDateTime AddHours(long hours) => AddMinutes(hours * Calendar.MinutesInHour);
-    public CustomDateTime AddDays(long days) => AddHours(days * Calendar.HoursInDay);
-
-    public CustomDateTime AddMonths(int months)
-    {
-        var newYear = Year;
-        var newMonth = Month + months;
-        var newDay = Day;
-        var monthsInYear = Calendar.GetMonthsInYear(newYear);
-
-        while (newMonth > monthsInYear)
-        {
-            newMonth -= monthsInYear;
-            newYear++;
-            monthsInYear = Calendar.GetMonthsInYear(newYear);
-        }
-
-        while (newMonth < 1)
-        {
-            newYear--;
-            monthsInYear = Calendar.GetMonthsInYear(newYear);
-            newMonth += monthsInYear;
-        }
-
-        var daysInNewMonth = Calendar.GetDaysInMonth(newYear, newMonth);
-        if (newDay > daysInNewMonth) newDay = daysInNewMonth;
-
-        return new CustomDateTime(newYear, newMonth, newDay, Hour, Minute, Second, Millisecond, Calendar);
-    }
-
-    public CustomDateTime AddYears(long years)
-    {
-        var newYear = Year + years;
-        var newMonth = Month;
-        var newDay = Day;
-        var daysInNewMonth = Calendar.GetDaysInMonth(newYear, newMonth);
-        if (newDay > daysInNewMonth) newDay = daysInNewMonth;
-        return new CustomDateTime(newYear, newMonth, newDay, Hour, Minute, Second, Millisecond, Calendar);
-    }
-
     public CustomTimeSpan Subtract(CustomDateTime other)
     {
-        if (Calendar != other.Calendar) throw new ArgumentException("无法计算来自不同历法的 CustomDateTime 值之间的时间间隔。");
-        return new CustomTimeSpan(TotalMilliseconds - other.TotalMilliseconds);
+        //if (Calendar != other.Calendar) throw new ArgumentException("无法计算来自不同历法的 CustomDateTime 值之间的时间间隔。");
+        return new CustomTimeSpan(TotalSeconds - other.TotalSeconds);
     }
 
     public static CustomDateTime operator +(CustomDateTime dt, CustomTimeSpan ts) =>
-        new CustomDateTime(dt.TotalMilliseconds + ts.TotalMilliseconds, dt.Calendar);
+        new CustomDateTime(dt.TotalSeconds + ts.TotalSeconds, dt.Calendar);
 
     public static CustomDateTime operator -(CustomDateTime dt, CustomTimeSpan ts) =>
-        new CustomDateTime(dt.TotalMilliseconds - ts.TotalMilliseconds, dt.Calendar);
+        new CustomDateTime(dt.TotalSeconds - ts.TotalSeconds, dt.Calendar);
 
     public static CustomTimeSpan operator -(CustomDateTime a, CustomDateTime b) => a.Subtract(b);
 
@@ -208,7 +226,7 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
         var absYear = Math.Abs(Year);
         var formattedYear = absYear < 1000 ? absYear.ToString("D4") : absYear.ToString();
         return
-            $"{sign}{formattedYear}-{Month:D2}-{Day:D2} {Hour:D2}:{Minute:D2}:{Second:D2}.{Millisecond:D3} ({Calendar?.Name})";
+            $"{sign}{formattedYear}-{Month:D2}-{Day:D2} {Hour:D2}:{Minute:D2}:{Second:D2} ({Calendar?.Name})";
     }
 
     public int MonthInYear => Calendar.GetMonthsInYear(Year);
@@ -216,5 +234,4 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
     public int HourInDay => Calendar.HoursInDay;
     public int MinuteInHour => Calendar.MinutesInHour;
     public int SecondInMinute => Calendar.SecondsInMinute;
-    public int MillisecondInSecond => Calendar.MillisecondsInSecond;
 }

@@ -49,7 +49,7 @@
                                         <Setter Property="Background" Value="{DynamicResource SemiColorBackground1}" />
                                     </Style>
                                 </TextBox.Styles>
-                            </TextBox>
+                </TextBox>
             </Grid>
             
         </Panel>

@@ -12,20 +12,48 @@
         <conv:IsZeroConverter x:Key="IsZeroConverter"></conv:IsZeroConverter>
     </UserControl.Resources>
     <u:FormGroup Header="{Binding #Root.Header}">
-        <Grid HorizontalAlignment="Stretch"  u:FormItem.Label="年" ColumnDefinitions="*,Auto">
-            <u:NumericLongUpDown HorizontalAlignment="Stretch" Name="YearNumericLongUpDown" Maximum="1000000" Value="{Binding ElementName=Root,Path=DateTime.Year,Mode=TwoWay}"></u:NumericLongUpDown>
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" Classes="Danger" FontSize="16" 
+        <Grid HorizontalAlignment="Stretch" u:FormItem.Label="年" ColumnDefinitions="*,Auto">
+            <u:NumericLongUpDown HorizontalAlignment="Stretch" Name="YearNumericLongUpDown"
+                                 Value="{Binding ElementName=Root,Path=DateTime.Year,Mode=TwoWay}">
+            </u:NumericLongUpDown>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" Classes="Danger" FontSize="16"
                        IsVisible="{Binding Value,Converter={StaticResource IsZeroConverter}, 
                        ElementName=YearNumericLongUpDown,Mode=OneWay}">
                 Year 0 is not supported
             </TextBlock>
         </Grid>
-        
 
-        
+
+        <!-- <u:NumericIntUpDown -->
+        <!--                     u:FormItem.Label="月" -->
+        <!-- -->
+        <!--                     Value="{Binding ElementName=Root,Path=DateTime.Month,Mode=TwoWay}"> -->
+        <!-- -->
+        <!-- </u:NumericIntUpDown> -->
+        <!-- <u:NumericIntUpDown -->
+        <!--                     u:FormItem.Label="日" -->
+        <!--                     Value="{Binding ElementName=Root,Path=DateTime.Day,Mode=TwoWay}" -->
+        <!--                     Name="DayNumericUpDown"> -->
+        <!-- -->
+        <!-- </u:NumericIntUpDown> -->
+        <!-- <u:NumericIntUpDown -->
+        <!--                     u:FormItem.Label="时" -->
+        <!--                     Value="{Binding ElementName=Root,Path=DateTime.Hour,Mode=TwoWay}"> -->
+        <!-- -->
+        <!-- </u:NumericIntUpDown> -->
+        <!-- <u:NumericIntUpDown -->
+        <!--                     u:FormItem.Label="分" -->
+        <!--                     Value="{Binding ElementName=Root,Path=DateTime.Minute,Mode=TwoWay}"> -->
+        <!-- -->
+        <!-- </u:NumericIntUpDown> -->
+        <!-- <u:NumericIntUpDown -->
+        <!--                     u:FormItem.Label="秒" -->
+        <!--                     Value="{Binding ElementName=Root,Path=DateTime.Second,Mode=TwoWay}"> -->
+        <!-- -->
+        <!-- </u:NumericIntUpDown> -->
         <u:NumericIntUpDown Minimum="1" Maximum="{Binding DateTime.MonthInYear,ElementName=Root,Mode=OneWay}"
                             u:FormItem.Label="月"
-                            
+
                             Value="{Binding ElementName=Root,Path=DateTime.Month,Mode=TwoWay}">
 
         </u:NumericIntUpDown>
@@ -50,11 +78,7 @@
                             Value="{Binding ElementName=Root,Path=DateTime.Second,Mode=TwoWay}">
 
         </u:NumericIntUpDown>
-        <u:NumericIntUpDown Minimum="0" Maximum="{Binding DateTime.MillisecondInSecond,ElementName=Root,Mode=OneWay}"
-                            Value="{Binding ElementName=Root,Path=DateTime.Millisecond,Mode=TwoWay}"
-                            u:FormItem.Label="毫秒">
 
-        </u:NumericIntUpDown>
         <Button Click="Debug">调试</Button>
     </u:FormGroup>
 </UserControl>

@@ -63,8 +63,6 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
         HoursInDay = hoursInDay;
         MinutesInHour = minutesInHour;
         SecondsInMinute = secondsInMinute;
-        MillisecondsInSecond = millisecondsInSecond;
-
         _daysInYearCalculated = _daysInMonths.Sum(d => d);
     }
 
@@ -74,7 +72,6 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
     public override int HoursInDay { get; }
     public override int MinutesInHour { get; }
     public override int SecondsInMinute { get; }
-    public override int MillisecondsInSecond { get; }
     public IReadOnlyList<int> DaysInMonths => _daysInMonths;
 
     public override int GetDaysInYear(long year)
@@ -97,8 +94,7 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
         return _daysInMonths[month - 1]; // 数组是0-based
     }
 
-    public override long ToTotalMillisecondsFromEpoch(long year, int month, int day, int hour, int minute, int second,
-        int millisecond)
+    public override BigInteger ToTotalSecondsFromEpoch(long year, int month, int day, int hour, int minute, int second)
     {
         // 验证输入
         if (year == 0)
@@ -117,9 +113,7 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
             throw new ArgumentOutOfRangeException(nameof(minute), $"分钟 {minute} 超出有效范围 (0-{MinutesInHour - 1})。");
         if (second < 0 || second >= SecondsInMinute)
             throw new ArgumentOutOfRangeException(nameof(second), $"秒钟 {second} 超出有效范围 (0-{SecondsInMinute - 1})。");
-        if (millisecond < 0 || millisecond >= MillisecondsInSecond)
-            throw new ArgumentOutOfRangeException(nameof(millisecond),
-                $"毫秒 {millisecond} 超出有效范围 (0-{MillisecondsInSecond - 1})。");
+
 
         long totalDaysFromEpoch = 0;
 
@@ -136,26 +130,24 @@ public sealed class SimpleCustomCalendarRule : CustomCalendarRule
         totalDaysFromEpoch += daysInCurrentYear;
 
         // 添加时间组件
-        var totalMilliseconds = totalDaysFromEpoch * TotalMillisecondsInDay;
-        totalMilliseconds += hour * MinutesInHour * SecondsInMinute * MillisecondsInSecond;
-        totalMilliseconds += minute * SecondsInMinute * MillisecondsInSecond;
-        totalMilliseconds += second * MillisecondsInSecond;
-        totalMilliseconds += millisecond;
-
-        return totalMilliseconds;
+        BigInteger totalSeconds = totalDaysFromEpoch * TotalSecondsInDay;
+        totalSeconds += hour * MinutesInHour * SecondsInMinute;
+        totalSeconds += minute * SecondsInMinute;
+        totalSeconds += second;
+        return totalSeconds;
     }
 
-    public override void FromTotalMillisecondsFromEpoch(BigInteger totalMilliseconds, out long year, out int month,
-        out int day, out int hour, out int minute, out int second, out int millisecond)
+    public override void FromTotalSecondsToEpoch(BigInteger totalSeconds, out long year, out int month,
+        out int day, out int hour, out int minute, out int second)
     {
-        var totalDaysFromEpoch = BigInteger.DivRem(totalMilliseconds, TotalMillisecondsInDay, out var remainingMsInDay);
+        var totalDaysFromEpoch = BigInteger.DivRem(totalSeconds, TotalSecondsInDay, out var remainingSInDay);
 
         // 提取时间组件
-        hour = (int)BigInteger.DivRem(remainingMsInDay, MinutesInHour * SecondsInMinute * MillisecondsInSecond,
-            out remainingMsInDay);
-        minute = (int)BigInteger.DivRem(remainingMsInDay, SecondsInMinute * MillisecondsInSecond, out remainingMsInDay);
-        second = (int)BigInteger.DivRem(remainingMsInDay, MillisecondsInSecond, out remainingMsInDay);
-        millisecond = (int)remainingMsInDay;
+        hour = (int)BigInteger.DivRem(remainingSInDay, MinutesInHour * SecondsInMinute,
+            out remainingSInDay);
+        minute = (int)BigInteger.DivRem(remainingSInDay, SecondsInMinute, out remainingSInDay);
+        second = (int)remainingSInDay;
+
 
         // 提取日期组件 (年, 月, 日)
         long daysInCurrentYear; // 0-based day within the current year
