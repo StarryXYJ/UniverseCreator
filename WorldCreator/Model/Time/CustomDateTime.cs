@@ -127,11 +127,16 @@ public partial class CustomDateTime : ObservableObject, IComparable<CustomDateTi
         RecalculateFromComponents();
     }
 
-    private CustomDateTime(BigInteger totalSeconds, CustomCalendarRule calendar)
+    public CustomDateTime(BigInteger totalSeconds, CustomCalendarRule calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         TotalSeconds = totalSeconds;
         UpdateComponentsFromTotal();
+    }
+
+    public CustomDateTime(string totalSecondsString, CustomCalendarRule calendar) :
+        this(BigInteger.Parse(totalSecondsString), calendar)
+    {
     }
 
     private void RecalculateFromComponents()

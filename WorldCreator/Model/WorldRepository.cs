@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WorldCreator.Core;
+using WorldCreator.Model.Time;
 
 namespace WorldCreator.Model;
 
@@ -16,6 +17,8 @@ public partial class WorldRepository : ObservableObject, IComparable<WorldReposi
     [ObservableProperty] private DateTime _lastEditTime = DateTime.Now;
 
     [ObservableProperty] private string _name = "";
+
+    public CustomCalendarRule Calendar { get; set; } = GregorianCalendarRule.Instance;
 
     /// <summary>
     ///     用于按修改时间排序

@@ -12,4 +12,5 @@ public interface IRepositoryService
     void Load();
     void OpenRepository(WorldRepository repository);
     void Import(string uri);
+    string DbPath();
 }

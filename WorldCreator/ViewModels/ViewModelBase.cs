@@ -6,7 +6,6 @@ public abstract class ViewModelBase : ObservableRecipient
 {
     public ViewModelBase()
     {
-        IsActive = true;
     }
 
     public bool ShowSideBar { get; set; } = true;

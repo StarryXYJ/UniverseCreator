@@ -50,13 +50,19 @@ public class App : Application
                 services.AddSingleton<ViewLocator>();
                 services.AddSingleton<NavigationService>();
                 services.AddSingleton<MainViewModel>();
-
                 services.AddSingleton<IRepositoryService, RepositoryService>();
-                services.AddDbContext<EntryDataContext>((provider, options) =>
+
+                //services.AddDbContext<EntryDataContext>();
+                services.AddDbContext<EntryDataContext>((sp, options) =>
                 {
-                    var repo = provider.GetService<IRepositoryService>()!.CurrentRepository;
-                    options.UseSqlite(@"Server=(localdb)\mssqllocaldb;Database=Test;ConnectRetryCount=0");
+                    var repo = sp.GetRequiredService<IRepositoryService>();
+                    options.UseSqlite($"Data Source={repo.DbPath()}");
                 });
+                // services.AddDbContext<EntryDataContext>((provider, options) =>
+                // {
+                //     var repo = provider.GetService<IRepositoryService>()!.CurrentRepository;
+                //     options.UseSqlite(@"Server=(localdb)\mssqllocaldb;Database=Test;ConnectRetryCount=0");
+                // });
                 services.AddTransient<StartViewModel>();
                 services.AddTransient<EditViewModel>();
                 services.AddTransient<CreateViewModel>();

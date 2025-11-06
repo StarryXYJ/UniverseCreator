@@ -33,9 +33,4 @@ public partial class CustomTimePicker : UserControl
     {
         InitializeComponent();
     }
-
-
-    private void Debug(object? sender, RoutedEventArgs e)
-    {
-    }
 }

@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldCreator.Tests", "WorldCreator.Tests\WorldCreator.Tests.csproj", "{EC24F9C7-826E-4344-83B8-ED55B41D15E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{471A2364-E141-4423-B3F8-00A152D8F5AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,5 +58,12 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EBFA8512-1EA5-4D8C-B4AC-AB5B48A6D568} = {471A2364-E141-4423-B3F8-00A152D8F5AD}
+		{7AD1DAC8-7FBE-49D5-8614-7321233DB82E} = {471A2364-E141-4423-B3F8-00A152D8F5AD}
+		{1C1A049E-235C-4CD0-B6FA-D53AC418F4DA} = {471A2364-E141-4423-B3F8-00A152D8F5AD}
+		{ABC31E74-02FF-46EB-B3B2-4E6AE43B456C} = {471A2364-E141-4423-B3F8-00A152D8F5AD}
+		{EBD9022F-BC83-4846-9A11-6F7F3772DC64} = {471A2364-E141-4423-B3F8-00A152D8F5AD}
 	EndGlobalSection
 EndGlobal

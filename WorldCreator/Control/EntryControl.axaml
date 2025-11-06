@@ -13,39 +13,42 @@
     </UserControl.Resources>
     <Grid
         RowDefinitions="Auto,*">
-        <StackPanel Margin="0,0,10,0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+        <Border
+            Grid.Row="0"
+            Padding="0"
+            Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Margin="0,0,10,0" HorizontalAlignment="Right" Orientation="Horizontal">
+                <u:ButtonGroup Background="Transparent" x:DataType="control:ButtonItem"
+                               CommandBinding="{Binding Command,Mode=OneTime}">
+                    <u:ButtonGroup.Items>
+                        <control:ButtonItem Icon="{StaticResource EditIcon}"
+                                            Command="{Binding #Root.SwitchModeEditCommand,Mode=OneTime}">
+                        </control:ButtonItem>
+                        <control:ButtonItem Icon="{StaticResource PreviewIcon}"
+                                            Command="{Binding #Root.SwitchModePreviewCommand,Mode=OneTime}">
+                        </control:ButtonItem>
+                        <control:ButtonItem Icon="{StaticResource EditPreviewIcon}"
+                                            Command="{Binding #Root.SwitchModeSplitCommand,Mode=OneTime}">
+                        </control:ButtonItem>
+                    </u:ButtonGroup.Items>
+                    <u:ButtonGroup.ItemTemplate>
+                        <DataTemplate DataType="control:ButtonItem">
+                            <u:TwoTonePathIcon
+                                Foreground="{DynamicResource SemiColorPrimary}"
+                                Width="16" Height="16"
+                                Data="{Binding Icon}">
 
-            <u:ButtonGroup Background="Transparent" x:DataType="control:ButtonItem" CommandBinding="{Binding Command,Mode=OneTime}">
-                <u:ButtonGroup.Items>
-                    <control:ButtonItem Icon="{StaticResource EditIcon}"
-                                        Command="{Binding #Root.SwitchModeEditCommand,Mode=OneTime}">
-                    </control:ButtonItem>
-                    <control:ButtonItem Icon="{StaticResource PreviewIcon}"
-                                        Command="{Binding #Root.SwitchModePreviewCommand,Mode=OneTime}">
-                    </control:ButtonItem>
-                    <control:ButtonItem Icon="{StaticResource EditPreviewIcon}"
-                                        Command="{Binding #Root.SwitchModeSplitCommand,Mode=OneTime}">
-                    </control:ButtonItem>
-                </u:ButtonGroup.Items>
-                <u:ButtonGroup.ItemTemplate>
-                    <DataTemplate DataType="control:ButtonItem">
-                        <u:TwoTonePathIcon 
-                            Foreground="{DynamicResource SemiColorPrimary}"
-                            Width="16" Height="16"
-                                           Data="{Binding Icon}">
+                            </u:TwoTonePathIcon>
+                        </DataTemplate>
+                    </u:ButtonGroup.ItemTemplate>
+                </u:ButtonGroup>
+                <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource RotateIcon}"
+                              Click="ToggleSplitLayoutDirection" Margin="10,0,0,0" />
+                <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource SwapIcon}"
+                              Click="ToggleSwapPanels" Margin="10,0,0,0" />
+            </StackPanel>
+        </Border>
 
-                        </u:TwoTonePathIcon>
-                    </DataTemplate>
-                </u:ButtonGroup.ItemTemplate>
-            </u:ButtonGroup>
-            <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource RotateIcon}"
-                          Click="ToggleSplitLayoutDirection" Margin="10,0,0,0" />
-
-            <u:IconButton Theme="{DynamicResource BorderlessIconButton}" Icon="{DynamicResource SwapIcon}"
-                          Click="ToggleSwapPanels" Margin="10,0,0,0" />
-
-
-        </StackPanel>
         <Grid Grid.Row="1"
               IsVisible="{Binding #Root.IsVerticalVisible}"
               RowDefinitions="*,Auto,*">
@@ -80,7 +83,9 @@
                 Grid.Column="{Binding #Root.SwapPanels, Converter={StaticResource SwapPanelsToGridIndexConverter}, ConverterParameter=2}"
                 Padding="0"
                 Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <control:EditControl IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}" Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+                <control:EditControl IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}"
+                                     Entry="{Binding #Root.Entry,Mode=TwoWay}">
+                </control:EditControl>
             </Border>
         </Grid>
         <Border
@@ -95,7 +100,9 @@
             Padding="0"
             Theme="{DynamicResource CardBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             IsVisible="{Binding #Root.IsEditorVisible}">
-            <control:EditControl  IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}" Entry="{Binding #Root.Entry,Mode=TwoWay}"></control:EditControl>
+            <control:EditControl IsMarkdown="{Binding ElementName=EditControl1,Path=IsMarkdown,Mode=TwoWay}"
+                                 Entry="{Binding #Root.Entry,Mode=TwoWay}">
+            </control:EditControl>
         </Border>
     </Grid>
 </UserControl>

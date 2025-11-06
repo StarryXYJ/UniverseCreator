@@ -127,4 +127,9 @@ public class RepositoryService : ObservableObject, IRepositoryService
             Log.Error(e.Message + "\nJson反序列化配置文档失败");
         }
     }
+
+    public string DbPath()
+    {
+        return Path.Combine(Common.NativeRepoPath(CurrentRepository.Name), "data.db");
+    }
 }

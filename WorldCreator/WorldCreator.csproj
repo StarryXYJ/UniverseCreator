@@ -85,6 +85,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Model\Base\"/>
         <Folder Include="Model\Interfaces\"/>
     </ItemGroup>
 </Project>
